@@ -18,14 +18,23 @@
     const root = document.querySelector("#root");
 
     // 생성하려는 HtmlTag명은 맞춰줘야함 - 변수명은 자유
-    const span = React.createElement( "span"            // 사용 Tag
+    const h4 = React.createElement( "h4"                        // 사용 Tag
                                     , { id: "sexy-span" ,
-                                        style : {color:"red"}
-                                       }                // 요소의 Attribute
-                                    , "Hello I'm span"  // 내부 내용
+                                        style : {color:"red"},
+                                        onMouseEnter : ()=> console.log("enter!!"), // 이벤트 적용 - porperty에서 감지 할 수 있다는 장점!!
+                                       }                        // 요소의 Attribute
+                                    , "Hello I'm span"          // 내부 내용
                                     ); 
 
+
+    const btn = React.createElement("button", {
+        onClick : ()=> console.log(123),
+    }, "Click Me");
+
+    // 두가지 요소를 동시에 넣기 위한 div
+    const container = React.createElement("div", null, [h4, btn]);
+
     // React 랜더링
-    ReactDOM.createRoot(root).render(span); 
+    ReactDOM.createRoot(root).render(container); 
 </script>
 </html>
