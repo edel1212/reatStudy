@@ -1,1 +1,31 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<!-- React 명령어를 사용할 수 있게 해줌 -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script>
+    // React 요소를 추가할 타겟 지정
+    const root = document.querySelector("#root");
+
+    // 생성하려는 HtmlTag명은 맞춰줘야함 - 변수명은 자유
+    const span = React.createElement( "span"            // 사용 Tag
+                                    , { id: "sexy-span" ,
+                                        style : {color:"red"}
+                                       }                // 요소의 Attribute
+                                    , "Hello I'm span"  // 내부 내용
+                                    ); 
+
+    // React 랜더링
+    ReactDOM.createRoot(root).render(span); 
+</script>
+</html>

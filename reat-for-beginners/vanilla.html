@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <span>Total clicks : 0</span>
+    <button id="btn">Click Me</button>
+</body>
+<script>
+    const button = document.querySelector("#btn");
+    const span = document.querySelector("span");
+    let count = 0;
+    function hanldeCick(){
+        count++;
+        span.innerText = `Total clicks : ${count}`;
+    }
+    button.addEventListener("click", hanldeCick);
+</script>
+</html>
