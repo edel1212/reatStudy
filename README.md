@@ -6,4 +6,6 @@
 - JSX란?
     - javascript를 확장한 문법이다.
     - React의 Element요소를 쉽게 만들수있도록 도와준다.
-    - HTML과 흡사하게 사용할 수 있ㄷ다.
+    - HTML과 흡사하게 사용할 수 있다.
+    - 하지만 웹이 이해할수 있는것은 HTML, CSS, Javasript이기 때문에 JSX문법을 이해할수 없다
+        - 따라서 javascript로 변환해주는 코드가 필요함

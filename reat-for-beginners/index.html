@@ -19,13 +19,12 @@
 
     // 생성하려는 HtmlTag명은 맞춰줘야함 - 변수명은 자유
     const h4 = React.createElement( "h4"                        // 사용 Tag
-                                    , { id: "sexy-span" ,
+                                    , { id: "title" ,
                                         style : {color:"red"},
                                         onMouseEnter : ()=> console.log("enter!!"), // 이벤트 적용 - porperty에서 감지 할 수 있다는 장점!!
-                                       }                        // 요소의 Attribute
-                                    , "Hello I'm span"          // 내부 내용
+                                       }                        // 요소의 Properties
+                                    , "Hello I'm Title"          // 내부 내용
                                     ); 
-
 
     const btn = React.createElement("button", {
         onClick : ()=> console.log(123),

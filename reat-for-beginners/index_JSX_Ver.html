@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<!-- React 명령어를 사용할 수 있게 해줌 -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<!-- JSX를 Javscript로 변경해줌 -->
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- ✅ "type="text/babel"을 작성해줘야 바벨이 변환해 준다. -->
+<script type="text/babel">
+    // React 요소를 추가할 타겟 지정
+    const root = document.querySelector("#root");
+
+    /** JSX 사용 👍 */                            
+    const Title = () => (
+        <h4 id="title" onMouseEnter ={()=> console.log("enter!!") }>
+            Hello I'm Title
+        </h4>
+    );
+
+    const Btn = () => (
+        <button style={{background: "red"}} onClick={()=> console.log(123)}>
+            Click Me
+        </button>
+    );
+    
+    
+    // ✅ 중요 포인트 : 1 . 불러오는 변수는 함수여야한다.
+    //               2 . 아래와 같이 요소를 include 시킬경우 대문자로 시작하게 해주자 "중요함!!" - 소문자일경우 HTML Tag로 인식함
+    const Container = ()=> (
+        <div>
+            <Title/>
+            <Btn/>
+        </div>
+    );
+    
+
+    // React 랜더링
+    ReactDOM.createRoot(root).render(<Container/>); 
+</script>
+</html>
