@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<!-- React 명령어를 사용할 수 있게 해줌 -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<!-- JSX를 Javscript로 변경해줌 -->
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- ✅ "type="text/babel"을 작성해줘야 바벨이 변환해 준다. -->
+<script type="text/babel">
+    // React 요소를 추가할 타겟 지정
+    const root = document.querySelector("#root");
+
+    let counter = 0;
+
+    function countUp(){
+        counter++;
+        // 👉 재랜더링을 해줘야 올라간 counter가 UI에 적용된다!!
+        reRender();
+    }
+
+    // React 랜더링 함수
+    function reRender(){
+        ReactDOM.createRoot(root).render(<Container/>); 
+    }
+
+    const Container = ()=> (
+        <div>
+            <h4 id="title">otal clicks : {counter}</h4>
+            <button onClick={()=>countUp()}>Click Me</button>
+        </div>
+    );
+    
+    reRender();
+</script>
+</html>
