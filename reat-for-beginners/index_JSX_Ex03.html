@@ -22,11 +22,16 @@
 
     const App = ()=> {
         // 👉 React.useState()는 값이 배열로 들어가 있음
-        const [counter, modifier] = React.useState(0);
-        console.log(modifier);
+        const [counter, setCounter] = React.useState(0);
+
+        const onClick = ()=>{
+            // 👉 해당 값으로 업데이태 해준다.
+            setCounter(counter + 1); // +1 이지만 신기하게 counter의 값이 증가하면서 올라감!! (배열은 객체다.) 그래서 변경이 가능함
+        }
+
         return (<div>
                     <h4 id="title">otal clicks : {counter}</h4>
-                    <button>Click Me</button>
+                    <button onClick={onClick}>Click Me</button>
                 </div>)
     };
     
