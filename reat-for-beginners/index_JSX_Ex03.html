@@ -23,6 +23,10 @@
     const App = ()=> {
         // 👉 React.useState()는 값이 배열로 들어가 있음
         const [counter, setCounter] = React.useState(0);
+        
+        // 💬 setCounter()함수가 실행되면 자동으로 데이터가 인자값으로 변경되고 재랜더링을 해준다!!
+        console.log("reRenter!!!");
+        console.log("counter ::: ", counter);
 
         const onClick = ()=>{
             // 👉 해당 값으로 업데이태 해준다.
