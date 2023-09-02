@@ -9,3 +9,6 @@
     - HTML과 흡사하게 사용할 수 있다.
     - 하지만 웹이 이해할수 있는것은 HTML, CSS, Javasript이기 때문에 JSX문법을 이해할수 없다
         - 따라서 javascript로 변환해주는 코드가 필요함
+    - JSX만의 문법이 있다 - 맞춰 사용하지 않으면 에러 발생
+        - `<h1 class="yoohg">` =>  `<h1 className="yoohg">`
+        - `<lable for="hello">` => `<lable htmlFor="hello">`
