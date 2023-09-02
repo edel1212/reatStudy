@@ -40,27 +40,40 @@
         // State 변경!!
         setMinutes((current) => (current = event.target.value));
       };
+
+      // 초기화
+      const rest = () => {
+        // React.useSate()를 0으로 초기화해 줌
+        setMinutes(0);
+      };
+
       return (
         <div>
           <h1 className="title" id="title">
             Supper Converter
           </h1>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={minutes}
+              onChange={onChange}
+              id="minutes"
+              type="number"
+              placeholder="Minutes"
+            />
+          </div>
 
-          <label htmlFor="minutes">Minutes</label>
-          <input
-            value={minutes}
-            onChange={onChange}
-            id="minutes"
-            type="number"
-            placeholder="Minutes"
-          />
-
-          <hr />
-          <h4>You want to convert {minutes}</h4>
-          <hr />
-
-          <label htmlFor="hours">Hours</label>
-          <input id="hours" type="number" placeholder="Hours" />
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={Math.round(minutes / 60)}
+              id="hours"
+              type="number"
+              placeholder="Hours"
+              disabled
+            />
+          </div>
+          <button onClick={rest}>Reset</button>
         </div>
       );
     };
