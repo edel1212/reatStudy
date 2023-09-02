@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- React 명령어를 사용할 수 있게 해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.development.js"
+  ></script>
+  <!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+  ></script>
+  <!-- JSX를 Javscript로 변경해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+  ></script>
+
+  <!-- ✅ "type="text/babel"을 작성해줘야 바벨이 변환해 준다. -->
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+
+    const App = () => {
+      // 분을 다루는 State
+      const [amount, setAmount] = React.useState(0);
+      // Fip 구분 State
+      const [filpped, setFlipped] = React.useState(false);
+      const onChange = (event) => {
+        setAmount((current) => (current = event.target.value));
+      };
+
+      const reset = () => {
+        setAmount(0);
+      };
+      // Filp값 변환
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => (current = !current));
+      };
+
+      return (
+        <div>
+          <h1 className="title" id="title">
+            Supper Converter
+          </h1>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={!filpped ? amount : amount * 60}
+              onChange={onChange}
+              id="minutes"
+              type="number"
+              placeholder="Minutes"
+              disabled={filpped}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={filpped ? amount : Math.round(amount / 60)}
+              id="hours"
+              type="number"
+              placeholder="Hours"
+              onChange={onChange}
+              disabled={!filpped}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>Filpped</button>
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(root).render(<App />);
+  </script>
+</html>
