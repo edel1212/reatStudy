@@ -32,7 +32,7 @@
       // 분을 다루는 State
       const [amount, setAmount] = React.useState(0);
       // Fip 구분 State
-      const [filpped, setFlipped] = React.useState(false);
+      const [inverted, setInverted] = React.useState(false);
       const onChange = (event) => {
         setAmount((current) => (current = event.target.value));
       };
@@ -43,7 +43,7 @@
       // Filp값 변환
       const onFlip = () => {
         reset();
-        setFlipped((current) => (current = !current));
+        setInverted((current) => (current = !current));
       };
 
       return (
@@ -54,28 +54,29 @@
           <div>
             <label htmlFor="minutes">Minutes</label>
             <input
-              value={!filpped ? amount : amount * 60}
+              //  👉 filpped의 값에 따라 valu값 변경
+              value={!inverted ? amount : amount * 60}
               onChange={onChange}
               id="minutes"
               type="number"
               placeholder="Minutes"
-              disabled={filpped}
+              disabled={inverted}
             />
           </div>
 
           <div>
             <label htmlFor="hours">Hours</label>
             <input
-              value={filpped ? amount : Math.round(amount / 60)}
+              value={inverted ? amount : Math.round(amount / 60)}
               id="hours"
               type="number"
               placeholder="Hours"
               onChange={onChange}
-              disabled={!filpped}
+              disabled={!inverted}
             />
           </div>
           <button onClick={reset}>Reset</button>
-          <button onClick={onFlip}>Filpped</button>
+          <button onClick={onFlip}>{inverted ? "Trun back" : "Invert"}</button>
         </div>
       );
     };
