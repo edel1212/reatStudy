@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- React 명령어를 사용할 수 있게 해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.development.js"
+  ></script>
+  <!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+  ></script>
+  <!-- JSX를 Javscript로 변경해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+  ></script>
+
+  <!-- ✅ "type="text/babel"을 작성해줘야 바벨이 변환해 준다. -->
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+    // 각각을 컴포넌트로 보면된다 - SaveBtn, ConfirmBtn
+    // 👍 const Btn = ({blackGome}) => {  형식으로도 가능 ! Javascript 이니깐!
+    const Btn = (props) => {
+      console.log("----------------");
+      // 👉 내가 넘긴 이름에 맞춰서 Object 형식으로 들어가 있음
+      console.log(props);
+      console.log("----------------");
+
+      return (
+        <button
+          style={{
+            // ✅ props.name 있고 없고에 따라서 버튼색 변경
+            background: props.name ? "tomato" : "blue",
+            border: "none",
+            borderRadius: 10,
+            padding: "10px 20px",
+            color: "white",
+          }}
+        >
+          {props.balckGom}
+        </button>
+      );
+    };
+
+    const App = () => {
+      return (
+        <div>
+          {
+            // 👉 내가 지정한 이름을 Key:value 형식으로 컴포넌트로 전달 된다.
+          }
+          <Btn balckGom="Save Changes" name="Yoo" />
+          <Btn balckGom="Continue" />
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(root).render(<App />);
+  </script>
+</html>

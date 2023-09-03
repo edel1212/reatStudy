@@ -13,6 +13,47 @@
     - `<h1 class="yoohg">` => `<h1 className="yoohg">`
     - `<lable for="hello">` => `<lable htmlFor="hello">`
 - 주요기능
+
   - `Reat.useSate(초기설정값)` : 의 반환값은 배열로 들어가있다
+
     - `[값, 해당 값수정 함수]` : 해당 배열은 0번에는 값 1번에는 수정할 수 있는 "함수"가 들어가 있다
     - 1번 인덱스의 함수를 사용하면 값이 변하면서 값이 변한 부분만 `자동으로 재렌더링` 해준다!
+    - 컴포넌트를 재사용 예시
+
+    ```javascript
+    /***
+     *  해당 두개의 컴포넌트는 사실 버튼의 이름을 제외하고는 전부 같은 코드를
+     *  사용하고 있는 문제가 있음
+     * /
+    const SaveBtn = () => {
+      return (
+        <button
+          style={{
+            background: "tomato",
+            border: "none",
+            borderRadius: 10,
+            padding: "10px 20px",
+            color: "white",
+          }}
+        >
+          Save Changes
+        </button>
+      );
+    };
+
+    const ConfirmBtn = () => {
+      return (
+        <button
+          style={{
+            background: "tomato",
+            border: "none",
+            borderRadius: 10,
+            padding: "10px 20px",
+            color: "white",
+          }}
+        >
+          Confirm
+        </button>
+      );
+    };
+    ```
