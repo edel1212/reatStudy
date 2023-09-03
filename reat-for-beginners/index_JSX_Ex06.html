@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- React 명령어를 사용할 수 있게 해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.development.js"
+  ></script>
+  <!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+  ></script>
+  <!-- JSX를 Javscript로 변경해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+  ></script>
+
+  <!-- ✅ "type="text/babel"을 작성해줘야 바벨이 변환해 준다. -->
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+
+    const MinutesToHours = () => {
+      // 분을 다루는 State
+      const [amount, setAmount] = React.useState(0);
+      // Fip 구분 State
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        setAmount((current) => (current = event.target.value));
+      };
+
+      const reset = () => {
+        setAmount(0);
+      };
+      // Filp값 변환
+      const onFlip = () => {
+        reset();
+        setInverted((current) => (current = !current));
+      };
+
+      return (
+        <div>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              //  👉 filpped의 값에 따라 valu값 변경
+              value={!inverted ? amount : amount * 60}
+              onChange={onChange}
+              id="minutes"
+              type="number"
+              placeholder="Minutes"
+              disabled={inverted}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={inverted ? amount : Math.round(amount / 60)}
+              id="hours"
+              type="number"
+              placeholder="Hours"
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>{inverted ? "Trun back" : "Invert"}</button>
+        </div>
+      );
+    };
+
+    const KmToMiles = () => {
+      const [amount, setAmount] = React.useState(0);
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        setAmount((current) => (current = event.target.value));
+      };
+
+      const reset = () => {
+        setAmount(0);
+      };
+      // Filp값 변환
+      const onFlip = () => {
+        reset();
+        setInverted((current) => (current = !current));
+      };
+
+      return (
+        <div>
+          <div>
+            <label htmlFor="Km">km</label>
+            <input
+              value={!inverted ? amount : Math.round(amount / 1000)}
+              onChange={onChange}
+              id="km"
+              type="number"
+              placeholder="Km"
+              disabled={inverted}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="Miles">Miles</label>
+            <input
+              value={inverted ? amount : amount * 1000}
+              id="miles"
+              type="number"
+              placeholder="Miles"
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>{inverted ? "Trun back" : "Invert"}</button>
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [index, setIndex] = React.useState("xx");
+
+      const onSelect = (event) => {
+        setIndex((current) => (current = event.target.value));
+      };
+
+      return (
+        <div>
+          <h1 className="title" id="title">
+            Supper Converter
+          </h1>
+          <select value={index} id="" onChange={onSelect}>
+            <option value="xx">--</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+            {
+              // ... 추가될 수 있음
+            }
+          </select>
+
+          <hr />
+          {
+            // 💬 Index에 따라서 보여줄 컴포넌트릴 지정해줬음 - 컴포넌트가 추가될경우 if~ else-if를 사용
+          }
+          {index === "xx" ? "선택해주세요" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(root).render(<App />);
+  </script>
+</html>
