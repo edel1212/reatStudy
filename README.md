@@ -20,40 +20,82 @@
     - 1번 인덱스의 함수를 사용하면 값이 변하면서 값이 변한 부분만 `자동으로 재렌더링` 해준다!
     - 컴포넌트를 재사용 예시
 
-    ```javascript
-    /***
-     *  해당 두개의 컴포넌트는 사실 버튼의 이름을 제외하고는 전부 같은 코드를
-     *  사용하고 있는 문제가 있음
-     * /
-    const SaveBtn = () => {
-      return (
-        <button
-          style={{
-            background: "tomato",
-            border: "none",
-            borderRadius: 10,
-            padding: "10px 20px",
-            color: "white",
-          }}
-        >
-          Save Changes
-        </button>
-      );
-    };
+      - 문제 코드 👎
 
-    const ConfirmBtn = () => {
-      return (
-        <button
-          style={{
-            background: "tomato",
-            border: "none",
-            borderRadius: 10,
-            padding: "10px 20px",
-            color: "white",
-          }}
-        >
-          Confirm
-        </button>
-      );
-    };
-    ```
+      ```javascript
+      /***
+       *  해당 두개의 컴포넌트는 사실 버튼의 이름을 제외하고는 전부 같은 코드를
+      *  사용하고 있는 문제가 있음
+      * /
+      const SaveBtn = () => {
+        return (
+          <button
+            style={{
+              background: "tomato",
+              border: "none",
+              borderRadius: 10,
+              padding: "10px 20px",
+              color: "white",
+            }}
+          >
+            Save Changes
+          </button>
+        );
+      };
+
+      const ConfirmBtn = () => {
+        return (
+          <button
+            style={{
+              background: "tomato",
+              border: "none",
+              borderRadius: 10,
+              padding: "10px 20px",
+              color: "white",
+            }}
+          >
+            Confirm
+          </button>
+        );
+      };
+      ```
+
+      - 변경코드 👍
+
+      ```javascript
+      // 각각을 컴포넌트로 보면된다 - SaveBtn, ConfirmBtn
+      // 👍 const Btn = ({blackGome}) => {  형식으로도 가능 ! Javascript 이니깐!
+      const Btn = (props) => {
+        console.log("----------------");
+        // 👉 내가 넘긴 이름에 맞춰서 Object 형식으로 들어가 있음
+        console.log(props);
+        console.log("----------------");
+
+        return (
+          <button
+            style={{
+              // ✅ props.name 있고 없고에 따라서 버튼색 변경
+              background: props.name ? "tomato" : "blue",
+              border: "none",
+              borderRadius: 10,
+              padding: "10px 20px",
+              color: "white",
+            }}
+          >
+            {props.balckGom}
+          </button>
+        );
+      };
+
+      const App = () => {
+        return (
+          <div>
+            {
+              // 👉 내가 지정한 이름을 Key:value 형식으로 컴포넌트로 전달 된다.
+            }
+            <Btn balckGom="Save Changes" name="Yoo" />
+            <Btn balckGom="Continue" />
+          </div>
+        );
+      };
+      ```
