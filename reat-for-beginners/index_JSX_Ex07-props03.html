@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- React 명령어를 사용할 수 있게 해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.development.js"
+  ></script>
+  <!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+  ></script>
+  <!-- JSX를 Javscript로 변경해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+  ></script>
+  <!-- 👉 props 타입을 체크해준다. -->
+  <script
+    crossorigin
+    src="https://unpkg.com/prop-types@15.7.2/prop-types.js"
+  ></script>
+
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+    const Btn = ({
+      text,
+      fontSize = "10" /* javascript 문법 사용해서 없을때 지정 */,
+    }) => {
+      return (
+        <button
+          style={{
+            background: "tomato",
+            border: "none",
+            borderRadius: 10,
+            padding: "10px 20px",
+            color: "white",
+            fontSize,
+          }}
+        >
+          {text}
+        </button>
+      );
+    };
+    // 👉 prop-types.js를 추가해줌으로써 사용이 가능해짐
+    Btn.propTypes = {
+      // 내가넘기는 Key : 타입
+      text: PropTypes.string.isRequired, // isRequired를 사용하면서 필수값 지정 가능함!!
+      fontSize: PropTypes.number,
+    };
+
+    const App = () => {
+      const [value, setValue] = React.useState("Save Changes");
+
+      const changeValue = () =>
+        setValue((current) => (current = "Revert Change"));
+      return (
+        <div>
+          {
+            // 👉 여기서 중요한건 현재 해주는것은 이벤트 등록이 아니라 prop을 전달해주는것이다.
+          }
+          <Btn text="Save Changes" fontSize={20} />
+          <Btn text={"WhyString?"} />
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(root).render(<App />);
+  </script>
+</html>
