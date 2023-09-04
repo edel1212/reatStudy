@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- React 명령어를 사용할 수 있게 해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.development.js"
+  ></script>
+  <!-- React 명령어로 생성된 변수들을 Dom으로 만들어줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+  ></script>
+  <!-- JSX를 Javscript로 변경해줌 -->
+  <script
+    crossorigin
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+  ></script>
+
+  <!-- ✅ "type="text/babel"을 작성해줘야 바벨이 변환해 준다. -->
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+    const Btn = (props) => {
+      console.log(
+        "write memo()사용하면 재랜더링 바뀐 부분만!! :::  ",
+        props.balckGom
+      );
+
+      /**
+       * ✅ props는 여러가지가 들어갈 수 있다
+       * - 단 넘겨 받은 props를 직접 return 내부에 사용해야 적용이 가능함!!
+       */
+      return (
+        <button
+          onClick={props.changeValue}
+          style={{
+            background: "tomato",
+            border: "none",
+            borderRadius: 10,
+            padding: "10px 20px",
+            color: "white",
+          }}
+        >
+          {props.balckGom}
+        </button>
+      );
+    };
+
+    const App = () => {
+      // 👉 React.memo(대상)을 사용하면 같은 컴포넌트에서 값을 변경하여 랜더링해도 변경한 부분만 재랜더링 해 줌!
+      const MemeorizedBtn = React.memo(Btn);
+      const [value, setValue] = React.useState("Save Changes");
+
+      const changeValue = () =>
+        setValue((current) => (current = "Revert Change"));
+      return (
+        <div>
+          {
+            // 👉 여기서 중요한건 현재 해주는것은 이벤트 등록이 아니라 prop을 전달해주는것이다.
+          }
+          <MemeorizedBtn balckGom={value} changeValue={changeValue} />
+          <MemeorizedBtn balckGom="Continue" />
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(root).render(<App />);
+  </script>
+</html>
