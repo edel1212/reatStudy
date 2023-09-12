@@ -108,3 +108,17 @@
 - 방법
   - 1 . Node 설치
   - 2 . 경로 지정 후 `npx create-react-app 이름`으로 프로젝트를 생성 할 수 있다.
+- 구조
+  - 작업 해야하는 메인 폴더는 `src`이다.
+  - index.js를 확인해보면 익숙한 코드가 있다.
+    - ```javascript
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      );
+      ```
+    - 설정이 자동으로 되어있기에 해당 코드를 토대로 `index.html`에 랜더링해서 보여주는 것이다.
+- 장점
+  - `auto-reload`를 지원 코드를 바꾸만 알아서 새로 적용해 준다
