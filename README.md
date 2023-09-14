@@ -122,3 +122,52 @@
     - 설정이 자동으로 되어있기에 해당 코드를 토대로 `index.html`에 랜더링해서 보여주는 것이다.
 - 장점
   - `auto-reload`를 지원 코드를 바꾸만 알아서 새로 적용해 준다
+  - 기본적으로 필요한 설정이 되어있다.
+
+<hr/>
+
+## prop-types
+
+- 설치
+  - 진행 중인 프로젝트 파일로 이동
+  - `npm i rpop-types`를 사용해서 설치해주자.
+  - npm을 통한 설치가 에러가 있을 경우
+    - `npm install --global yarn`을 통해 yarn을 설치
+    - `yarn add prop-types`를 통해 설치해준다.
+- 사용방법
+  - 설치가 완료되면 import 하여 사용해주자.
+    - `import PropTypes from "prop-types";`
+    - ```javascript
+      Button.propTypes = {
+        text: PropTypes.string.isRequired,
+      };
+      ```
+
+<hr/>
+
+## Style
+
+- 일반적인 Style.css 적용
+  - 방법
+    - css파일을 생성한다.
+    - index.js에 import 시켜준다.
+      - `import "./style.css";`
+  - 문제점
+    - import한 css파일의 모든 불필요한 css까지 다가져온다. ( 비효율적 )
+    - 전역적으로 적용하려면 상관없지면 전역적으로 지정하고 싶지 않은거 까지 적용될 수 있다.
+- css를 모듈화하여 적용
+  - 방법
+    - `xx.module.css`로 css파일을 생성하고 내부는 일반 css처럼 작성한다.
+      - 단 Tag지정이 아닌 class명으로 만들어주자.
+    - `import styled from "./Button.module.css";` import 해준다.
+    - ```javascript
+      function Button({ text }) {
+        // Object처럼 클래스명으로 불러와서 사용한다
+        return <button className={styled.btn}>{text}</button>;
+      }
+      ```
+  - 장점
+    - class명이 암호화되어 붙여진다.
+      - 따라서 같은 class명이 겹쳐도 곤란한 상황이 없음! 독립적으로 움직일 수 있게 되었다.
+    - Object 형식처럼 사용이 가능하다.
+    - moudule 처럼 사용이 가능하다. 따라서 다양한 곳에 그냥 Import만하면 적용이 가능함
