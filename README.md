@@ -171,3 +171,46 @@
       - 따라서 같은 class명이 겹쳐도 곤란한 상황이 없음! 독립적으로 움직일 수 있게 되었다.
     - Object 형식처럼 사용이 가능하다.
     - moudule 처럼 사용이 가능하다. 따라서 다양한 곳에 그냥 Import만하면 적용이 가능함
+
+<hr/>
+
+## UseEffect
+
+- 일반적인 `useState()`를 사용하면 해당 값이 업데이트 될 때마다 해당 부분이 재랜더링이 된다.
+  - 여기서 만약 한번만 불러도 되는 API가 들어있다면? 계속해서 요청하되는 문제가 발생
+- 위와 같은 문제를 막기위해 처음 랜더링 시 단 한번만 실행 될 수 있는 `useEffect()`가 존재 하는 것이다.
+- 💬 중요
+  - `useEffect()`가 실행 되는 시점은 컴포넌트의 렌더링 이후 이다!
+    - 나중에 로직이 꼬일 위험이 있으니 잊지 말자!!
+
+### 사용 방법
+
+```javascript
+// ✅ import 해준다 - create react를 사용하여 프로젝트를 생성 하였기에 가능
+import { useState, useEffect } from "react";
+
+function App() {
+  // 👉 일반적인 useState()이기에 계속 랜더링 됨
+  const [count, setCount] = useState(0);
+  const clickEvent = () => {
+    console.log("I run all Time!!!");
+    setCount((current) => current + 1);
+  };
+
+  // 👉 한번만 실행 됨!
+  // 나중에 코드가 안 꼬일려면 , useEffect 내에 코드가 실행되는 시점이 컴포넌트의 렌더링 이후 이다.
+  // 컴포넌트 함수 내에 있는 일반적인 다른 코드들보다도 use effect가 늦게 실행됨!!
+  useEffect(() => {
+    console.log("Call API - 무조건 한번만 실행 된다!!");
+  }, []);
+
+  return (
+    <div>
+      {count}
+      <button onClick={clickEvent}>count</button>
+    </div>
+  );
+}
+
+export default App;
+```
