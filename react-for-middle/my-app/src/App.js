@@ -1,9 +1,9 @@
-import CleanUp from "./CleanupStudy";
+import TodoList from "./TodoApp";
 
 function App() {
   return (
     <div>
-      <CleanUp />
+      <TodoList />
     </div>
   );
 }
