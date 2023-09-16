@@ -314,3 +314,51 @@ function App() {
   );
 }
 ```
+
+<hr/>
+
+## useState - 배열 다루는 방법
+
+- 중요한 점은 React에서 상태값 (변수의 값)을 변경하려면 해당 `useState()`에서 만들었던 수정 함수를 사용해야한다.
+  - 그냥 일반 javasript처럼 값을 변경하면 값은 바뀌지면 랜더링이 되지 않아 화면은 그대로임..
+- `const [val, setVal] = useSate();`에서 `setVal()`를 사용할 경우 State는 항상 새로운 값으로 넣어줘야한다!. 값을 변경하는 개념이 아님 새로운 값을 넣어주는 개념이여야함!! ⭐️중요
+
+### 사용 예시
+
+```javascript
+import { useState, useEffect } from "react";
+
+function TodoList() {
+  const [todo, setTodo] = useState("");
+  // Todo 목록
+  const [todos, setTodos] = useState([]);
+  console.log("Todo 목록 ::: ", todo);
+  const onChage = (e) => setTodo(e.target.value);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!todo) return;
+    // ❌  `todos.push(todo)` 리엑트는 이런식으로 사용하지 않음!! 재랜더링이 안됨
+    // 💬 중요! 바뀌는 State는 항상 새로운 값이어야함!! 그렇기에 새로운 값 + 이전 Array를 넣어주자
+    setTodos((currentArray) => [todo, ...currentArray]); // ⭐️ 새롭게 상태를 할당함
+    setTodo(""); // 초기화
+  };
+  return (
+    <div>
+      {todos}
+      <h1>My Todos ({todos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          value={todo}
+          onChange={onChage}
+          type="text"
+          placeholder="Write Your todo"
+        />
+        <button>Add Todo</button>
+      </form>
+    </div>
+  );
+}
+
+export default TodoList;
+```
