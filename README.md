@@ -12,6 +12,8 @@
   - JSX만의 문법이 있다 - 맞춰 사용하지 않으면 에러 발생
     - `<h1 class="yoohg">` => `<h1 className="yoohg">`
     - `<lable for="hello">` => `<lable htmlFor="hello">`
+- 특징
+  - 새로운 데이터가 들어올 떄마다 해당 component를 새로고침`Refesh`해준다.
 - 주요기능
 
   - `Reat.useSate(초기설정값)` : 의 반환값은 배열로 들어가있다
