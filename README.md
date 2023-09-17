@@ -326,7 +326,7 @@ function App() {
 ### 사용 예시
 
 ```javascript
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function TodoList() {
   const [todo, setTodo] = useState("");
@@ -345,7 +345,6 @@ function TodoList() {
   };
   return (
     <div>
-      {todos}
       <h1>My Todos ({todos.length})</h1>
       <form onSubmit={onSubmit}>
         <input
@@ -361,4 +360,36 @@ function TodoList() {
 }
 
 export default TodoList;
+```
+
+<hr/>
+
+## useState - 배열 다루는 방법 ( Map을 활용 UI 그리기 )
+
+- React가 아닌 일반 javascipt를 통해 해당 목적을 이뤄내기 위해서는
+  - `ul`을 생성하고 Id를 지정한다.
+  - `ul`을 채워 넣을 배열 데이터를 `map()`을 통해 li로 변환 후 forEach를 통해 `ul`에 `append()`시킨다.
+  - 위와 같은 순서가 필요하지만 React를 사용하하면 좀더 간한하게 처리가 가능하다.
+- 주의 사항
+  - `li`를 생성할때 각각의 `li`에 유니크 키를 설정해 줘야한다.
+    - 각각을 독립된 컴포넌트로 바라보기 때문에 구분하기 위함.
+  - `<li>${itme}</li>`처럼 사용하면 안된다 에러는 없지만 `li`와`$`자체를 문자열로 인식해버림
+
+### 사용 예시
+
+```javascript
+// 위와 같은 코드 스킵
+return (
+  <div>
+    // 위와 같은 코드 스킵
+    <ul>
+      {/*** 💬 간단하게 처리가 가능함 내부 문자 "{}"안에 코드만 javascript로 인식 나머지는 jsx태그로 인식함!!
+       *       `${}`를 사용할 필요가 없음 용하면 오히려 <li>테그를 문자로 인식하는 문제가 발생함    */}
+      {todos.map((item, idx) => (
+        // 👉 key를 설정해 주지 않으면 unique key 에러가 발생한다! - 하나하나의 같은 컴포넌트로 인식하기 때문에 구분하기 위해 필요함
+        <li key={idx}>{item}</li>
+      ))}
+    </ul>
+  </div>
+);
 ```
