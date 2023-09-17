@@ -1,9 +1,9 @@
-import CoinApp from "./CoinApp";
+import MovieApp from "./MovieApp";
 
 function App() {
   return (
     <div>
-      <CoinApp />
+      <MovieApp />
     </div>
   );
 }
