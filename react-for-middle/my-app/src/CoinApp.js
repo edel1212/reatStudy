@@ -22,7 +22,7 @@ function CoinApp() {
       .then((result) => setCoins(result))
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
-  }, []);
+  }, [money]);
 
   return (
     <div>
