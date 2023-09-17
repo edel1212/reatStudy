@@ -29,6 +29,15 @@ function TodoList() {
         />
         <button>Add Todo</button>
       </form>
+      <hr />
+      <ul>
+        {/*** 💬 간단하게 처리가 가능함 내부 문자 "{}"안에 코드만 javascript로 인식 나머지는 jsx태그로 인식함!!
+         *       `${}`를 사용할 필요가 없음 용하면 오히려 <li>테그를 문자로 인식하는 문제가 발생함    */}
+        {todos.map((item, idx) => (
+          // 👉 key를 설정해 주지 않으면 unique key 에러가 발생한다! - 하나하나의 같은 컴포넌트로 인식하기 때문에 구분하기 위해 필요함
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
