@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Movie from "./MovieComponent";
 
 function MovieApp() {
   const [loading, setLoading] = useState(true);
@@ -28,20 +29,16 @@ function MovieApp() {
       {loading ? (
         <span>Loading....</span>
       ) : (
-        <div>
-          {movieData.map((item) => (
-            <div key={item.id}>
-              <img src={item.medium_cover_image} />
-              <h2>{item.title}</h2>
-              <p>{item.summary}</p>
-              <ul>
-                {item.genres.map((g, idx) => (
-                  <li key={idx}>{g}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        movieData.map((item) => (
+          // ⭐️ 내가 틀렸던 부분 .. Object로 넘기면 알아서 파싱될거라 생각함 .. 아니었다 .. key값은 맞춰서 넘겨줘야함..
+          <Movie
+            key={item.id}
+            movieImg={item.medium_cover_image}
+            title={item.title}
+            summary={item.summary}
+            genres={item.genres}
+          />
+        ))
       )}
     </div>
   );
