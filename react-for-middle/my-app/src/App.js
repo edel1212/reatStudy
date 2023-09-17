@@ -1,9 +1,9 @@
-import MovieApp from "./MovieApp";
+import Home from "./routes/Home";
 
 function App() {
   return (
     <div>
-      <MovieApp />
+      <Home />
     </div>
   );
 }
