@@ -393,3 +393,55 @@ return (
   </div>
 );
 ```
+
+<hr/>
+
+## useEffect - 비동기 통신으로 데이터 받기
+
+- `useEffect`를 사용했지만 원하는 방식에 맞게 `useState`에 사용해도 사용 방법에는 큰차이는 없다.
+  - 랜더링의 차이만 있을 뿐이다.
+- 주의사항
+  - `useEffect`랑은 상관은 없지만 `useSate`를 사용할 때 초기값 설정을 해주는 습관을 꼭 갖자
+    - 값이 없을 경우 undefinde가 할당 되어 length와 같은 명령어가 실행되면 에러가 발생함.
+
+### 사용 예시
+
+```javascript
+import { useState, useEffect } from "react";
+
+function CoinApp() {
+  const [looad, setLoading] = useState(true);
+  // ✅ 초기값을 설정해주지 않으면 `<h2>The Coing ({coins.length}) </h2>`에러 발생 초기값 설정해주는 습관을 갖자!
+  //     - 이유 : 초기값 설정을 해주지 않으면 undefined 상태 이기 때문이다.
+  const [coins, setCoins] = useState([]);
+  useEffect(() => {
+    fetch("https://api.coinpaprika.com/v1/tickers")
+      .then((res) => res.json())
+      .then((result) => setCoins(result)) // 응답값을 coin에 할당해 줌
+      .catch((e) => console.log(e))
+      .finally(() => setLoading(false)); // 로딩 상태를 변경
+  }, []);
+  return (
+    <div>
+      <h2>The Coing {looad ? "" : `(${coins.length}개)`} </h2>
+      {/* 👉 로딩 유무에 따라 */}
+      {looad ? (
+        // True
+        <strong>Loading...</strong>
+      ) : (
+        //False
+        <select>
+          {coins.map((item, idx) => (
+            <option key={idx}>
+              {item.id} ({item.symbol}) : ${item.quotes.USD.price}
+            </option>
+          ))}
+        </select>
+      )}
+    </div>
+  );
+}
+
+// Export 시켜줌
+export default CoinApp;
+```

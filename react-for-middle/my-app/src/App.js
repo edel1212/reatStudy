@@ -1,9 +1,9 @@
-import TodoList from "./TodoApp";
+import CoinApp from "./CoinApp";
 
 function App() {
   return (
     <div>
-      <TodoList />
+      <CoinApp />
     </div>
   );
 }
