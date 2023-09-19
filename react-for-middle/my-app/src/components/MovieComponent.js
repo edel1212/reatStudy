@@ -1,10 +1,15 @@
 import PropTypes from "prop-types";
-
+import { Link } from "react-router-dom";
 function Movie({ movieImg, title, summary, genres }) {
   return (
     <div>
       <img src={movieImg} alt={title} />
-      <h2>{title}</h2>
+      {/**해당 방법은 화면이 깜박거리는 문제가 있음 */}
+      {/* <h2><a href="/moive">{title}</a></h2>  */}
+      <h2>
+        {/** 💬 Link를 사용하면 화면이 깜박이지 않고 이동 가능함 */}
+        <Link to="/movie">{title}</Link>
+      </h2>
       <p>{summary}</p>
       <ul>
         {genres.map((g, idx) => (

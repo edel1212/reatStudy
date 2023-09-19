@@ -13,7 +13,10 @@ function App() {
     <div>
       <Router>
         <Switch>
-          <Route path="/moive">
+          <Route path="/hello">
+            <h1>helllllllo</h1>
+          </Route>
+          <Route path="/movie">
             <Detail />
           </Route>
           {/* exact사용 이유는 home경로를 정확하게 이해시키기 위함 */}
