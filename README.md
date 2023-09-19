@@ -445,3 +445,70 @@ function CoinApp() {
 // Export 시켜줌
 export default CoinApp;
 ```
+
+<hr/>
+
+## React-Router 사용 방법
+
+- `localhost:3000/movie/111` 와 같이 주소를 넣어 페이지가 전활 될 수 있게 끔 하는 것이다.
+- 따로 설치 및 설정을 해주지 않으면 url을 변경한다 해도 계속 같은 페이지만 나옴..
+- 설치방법
+- 프로젝트 디렉토리 이동
+- `npm install react-router-dom`으로 React-Router-Dom을 설치한다.
+- ```javascript
+  import {
+    BrowserRouter as Router,
+    //HashRouter as Router,  주소에 #이 붙는다
+    Routes,
+    Route,
+    Switch,
+  } from "react-router-dom";
+  import Home from "./routes/Home";
+  import Detail from "./routes/Detail";
+  // 💬 해당 path에 매칭되는 컴포넌트로 이동시켜 준다.
+  function App() {
+    return (
+      <div>
+        <Router>
+          <Switch>
+            <Route path="/moive">
+              <Detail />
+            </Route>
+            {/* exact사용 이유는 home경로를 정확하게 이해시키기 위함 */}
+            <Route path="/" exact>
+              <Home />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
+
+  export default App;
+  ```
+
+<hr/>
+
+## React-Router - Link 사용 방법
+
+- 일반적인 `<a herf=""></a>` 태그를 사용해서 이동 시 화면이 깜박 거리는 문제가 있다..
+- `Link`를 import 하여 사용하면 해결이 가능함.
+
+```javascript
+// 💬  Link를 추가해준다.
+import { Link } from "react-router-dom";
+function Movie({ title }) {
+  return (
+    <div>
+      {/**해당 방법은 화면이 깜박거리는 문제가 있음 */}
+      {/* <h2><a href="/moive">{title}</a></h2>  */}
+      <h2>
+        {/** 💬 Link를 사용하면 화면이 깜박이지 않고 이동 가능함 */}
+        <Link to="/movie">{title}</Link>
+      </h2>
+    </div>
+  );
+}
+
+export default Movie;
+```
