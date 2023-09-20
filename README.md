@@ -512,3 +512,115 @@ function Movie({ title }) {
 
 export default Movie;
 ```
+
+<hr/>
+
+## React-Router - PathVariable 전달 방법
+
+- `domain/path/???`와 같은 url에 들어가 있는 값을 읽는 방법
+  - `import { useParams } from "react-router-dom";`를 사용해주면 된다.
+
+### 사용 예시 - 순서별
+
+- 1 . React-Router를 사용하는 부분에서 `:key`를 사용해서 값을 넘겨줄 값의 key를 지정해준다.
+
+  - ```javascript
+    // App.js
+    import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+    import Detail from "./routes/Detail";
+
+    function App() {
+      return (
+        <div>
+          <Router>
+            <Switch>
+              {/* Router에서 :id값을 알고싶다고 표시해주는 것임!! */}
+              <Route path="/movie/:id">
+                <Detail />
+              </Route>
+            </Switch>
+          </Router>
+        </div>
+      );
+    }
+    ```
+
+- 2 . 해당 url을 `Link` 해주는 부분에 값을 전달
+
+  - Movie에서 Detail로 이동하는 Link를 생성해 줌
+  - ```javascript
+    // Home.js
+    import { useState, useEffect } from "react";
+    import Movie from "../components/MovieComponent";
+
+    function Home() {
+      const [movieData, setMovieData] = useState([]);
+
+      const getMovies = async () => {
+        // 비동기로 데이터를 받아옴..
+      };
+
+      useEffect(() => {
+        getMovies();
+      }, []);
+
+      return (
+        <div>
+          {movieData.map((item) => (
+            <Movie
+              {/** 👉 Key값을 추가해줌 */}
+              key={item.id}
+              id={item.id}
+              movieImg={item.medium_cover_image}
+              title={item.title}
+              summary={item.summary}
+              genres={item.genres}
+            />
+          ))}
+        </div>
+      );
+    }
+
+    export default Home;
+    ```
+
+- 3 . 해당 url을 `Link` 해주는 부분에 값을 전달해주는 부분
+
+  - `:key` ":"가 없으면 그냥 해당 부분까지 url로 인식하니 주의하자!
+  - ```javascript
+    // MovieComponent
+    import { Link } from "react-router-dom";
+    function Movie({ id, movieImg, title, summary, genres }) {
+      return (
+        <div>
+          <h2>
+            {/**  👉 받아온 id값을 Link값에 넣어서 전달 */}
+            <Link to={`/movie/${id}`}>{title}</Link>
+          </h2>
+        </div>
+      );
+    }
+    export default Movie;
+    ```
+
+- 4 . `useParams`을 통해 받아온 값을 사용
+
+  - ```javascript
+    import { useEffect } from "react";
+    // 💬 Router에서 :key 값으로 넘긴 값을 받아올 수 있음 - Object형태
+    import { useParams } from "react-router-dom";
+    function Detail() {
+      // 👉 Router에서 넘긴 key값 >>> 한개가 아닌 여러개도 가능하다 { id, black, gom ...}등등
+      const { id } = useParams();
+      // 초기 세팅
+      useEffect(() => {
+        fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+          .then((res) => res.json())
+          .then((result) => console.log(result))
+          .catch((e) => console.log(e));
+      }, []);
+
+      return <h1>Detail</h1>;
+    }
+    export default Detail;
+    ```
