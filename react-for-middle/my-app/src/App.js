@@ -16,7 +16,8 @@ function App() {
           <Route path="/hello">
             <h1>helllllllo</h1>
           </Route>
-          <Route path="/movie">
+          {/* Router에서 :id값을 알고싶다고 표시해주는 것임!! */}
+          <Route path="/movie/:id">
             <Detail />
           </Route>
           {/* exact사용 이유는 home경로를 정확하게 이해시키기 위함 */}

@@ -33,6 +33,7 @@ function Home() {
           // ⭐️ 내가 틀렸던 부분 .. Object로 넘기면 알아서 파싱될거라 생각함 .. 아니었다 .. key값은 맞춰서 넘겨줘야함..
           <Movie
             key={item.id}
+            id={item.id}
             movieImg={item.medium_cover_image}
             title={item.title}
             summary={item.summary}

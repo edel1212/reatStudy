@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-function Movie({ movieImg, title, summary, genres }) {
+function Movie({ id, movieImg, title, summary, genres }) {
   return (
     <div>
       <img src={movieImg} alt={title} />
@@ -8,7 +8,7 @@ function Movie({ movieImg, title, summary, genres }) {
       {/* <h2><a href="/moive">{title}</a></h2>  */}
       <h2>
         {/** 💬 Link를 사용하면 화면이 깜박이지 않고 이동 가능함 */}
-        <Link to="/movie">{title}</Link>
+        <Link to={`/movie/${id}`}>{title}</Link>
       </h2>
       <p>{summary}</p>
       <ul>
@@ -21,6 +21,7 @@ function Movie({ movieImg, title, summary, genres }) {
 }
 
 Movie.propTypes = {
+  id: PropTypes.number.isRequired,
   movieImg: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,
