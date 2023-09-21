@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Movie from "../components/MovieComponent";
-
+import styles from "./Home.module.css";
 function Home() {
   const [loading, setLoading] = useState(true);
 
@@ -25,14 +25,18 @@ function Home() {
   console.log(movieData);
 
   return (
-    <div>
+    <div className={styles.container}>
       {loading ? (
-        <span>Loading....</span>
+        <div className={styles.loader}>
+          <span>Loading...</span>
+        </div>
       ) : (
         movieData.map((item) => (
           // ⭐️ 내가 틀렸던 부분 .. Object로 넘기면 알아서 파싱될거라 생각함 .. 아니었다 .. key값은 맞춰서 넘겨줘야함..
           <Movie
+            className={styles.movies}
             key={item.id}
+            year={item.year}
             id={item.id}
             movieImg={item.medium_cover_image}
             title={item.title}
