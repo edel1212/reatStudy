@@ -650,7 +650,7 @@ export default Movie;
 
 - 부모 컴포넌트 내부 -> 자식 컴포넌트가 이벤트를 통해 부모컴포넌트의 UI를 변경하려는 상황
 
-  - `useSate()`를 사용
+  - `useSate()`를 사용해서 값을 변경
   - 문제
     - 배열의 정보를 porp으로 전달해서 목록을 그려주는 자식 컴포넌트에서 어떻게하면 `key`값을 넘기지..? 라는 고민을함.
     - data-set을 사용할까 했지만 그건 `Reat`스럽지 못한 개발 방식이라 생각함. 데이터가 보이게 하고싶지 않았음
@@ -689,3 +689,71 @@ export default Movie;
           );
         };
         ```
+
+- form의 데이터 -> 전송 버튼 -> 목록 업데이트
+
+  - `form`, `input` 사용
+  - 문제
+    - 문제는 아니지만 `React`스럽게 사용하지 못함
+      - input의 값에 `value={}`설정과 `onChange()`를 설정하지 않고 사용
+      - 해당 방법을 통해 validation 체크 등 사용해 줄 수 있음!
+  - 기존 코드 👎
+    - ```javascript
+      export const Create = ({ setListItem }) => {
+        const formEvent = (event) => {
+          event.preventDefault();
+          // ❌ event.target.title.value 그냥 form의 데이터를 읽어서 사용해 버림
+          setListItem((current) => [...current, event.target.title.value]);
+        };
+        return (
+          <div>
+            <h2>Creacte</h2>
+            <form
+              onSubmit={(e) => {
+                formEvent(e);
+              }}
+            >
+              <p>
+                <input type="text" name="title" placeholder="title"></input>
+              </p>
+              <p>
+                <textarea name="body" placeholder="body"></textarea>
+              </p>
+              <button>Submit</button>
+            </form>
+          </div>
+        );
+      };
+      ```
+  - 해결
+
+    - `React`에서 권장하는 Input을 다루는 방법 사용
+      - `useSate()`를 통해 변수 생성
+      - `value={변수}` 지정
+      - `onChage={변경함수}` 저정 - 👉 중요!! 안해주면 Input값 안 바뀜
+    - ```javascript
+      import { useState } from "react";
+      export const Create = ({ setListItem }) => {
+        // ✅ "" 안해주면 경고 메세지가 나옴
+        const [inputValue, setInputValue] = useState("");
+
+        const inputChage = (event) => {
+          const value = event.target.value;
+          // 👉 TODO : 여기서 validation 체크가 가능함
+          setInputValue(value);
+        };
+
+        return (
+          <div>
+            <input
+              type="text"
+              name="title"
+              placeholder="title"
+              value={inputValue}
+              onChange={(e) => inputChage(e)}
+            ></input>
+            <button>Submit</button>
+          </div>
+        );
+      };
+      ```
