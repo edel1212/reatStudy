@@ -4,6 +4,8 @@
 - React JS에서는 모든 것이 `Javascript`로써 시작해 그것들이 HTML로 변환 되는것이다 ( 순서가 반대라고 생각하면 쉽다 )
   - 해당 방법이 강력한 이유는 React JS는 업데이터가 필요한 element 요소를 React에서 만들고 이벤트도 같이 처리하기 떄문에 인터렉티브하게 데이터 위주로 화면이 그려질 수 있는 것이다.
 - JSX란?
+  - 과거에는 `jsx`파일을 만들어서 class문법을 사용 했으나 버전업으로 js파일 내에서 함수를 통해 jsx문법 사용
+    - 따라서 .js파일만으로도 React 구현이 가능해졌다.
   - javascript를 확장한 문법이다.
   - React의 Element요소를 쉽게 만들수있도록 도와준다.
   - HTML과 흡사하게 사용할 수 있다.
@@ -641,3 +643,49 @@ export default Movie;
     }
     export default Detail;
     ```
+
+<hr/>
+
+## React 연습간 삽질 목록 ....
+
+- 부모 컴포넌트 내부 -> 자식 컴포넌트가 이벤트를 통해 부모컴포넌트의 UI를 변경하려는 상황
+
+  - `useSate()`를 사용
+  - 문제
+    - 배열의 정보를 porp으로 전달해서 목록을 그려주는 자식 컴포넌트에서 어떻게하면 `key`값을 넘기지..? 라는 고민을함.
+    - data-set을 사용할까 했지만 그건 `Reat`스럽지 못한 개발 방식이라 생각함. 데이터가 보이게 하고싶지 않았음
+    - 간단하게 이벤트 자체에 파라미터로 idx를 전달하면 되겠지 하고 했지만 에러 발생...
+      - ex) `<li onClick={liClick(idx)} key={idx}>`
+      - error : `while rendering a different component (`Nav`). To locate the bad setState() call inside `Nav`, follow the stack trace as described in`
+  - 해결
+
+    - 이벤트를 바로 함수를 Call하는 것이 아닌 한번 더 감싸주면 쉽게 해결. -`event`자체도 파라미터로 받을 수 있게 되었음
+
+      - ```javascript
+        export const Nav = ({ list, modeChange }) => {
+          const liClick = (index, e) => {
+            console.log("클릭 이벤트도 받을 수 있음!!", e);
+            let mod = "WELCOME";
+            if (index === 0) {
+              mod = "WELCOME";
+            } else if (index === 1) {
+              mod = "BACK";
+            }
+            // 👉 useSate()에서 수정 함수임
+            modeChange(mod);
+          };
+
+          return (
+            <div>
+              <ul>
+                {list.map((itme, idx) => (
+                  // 이렇게 ()=>{만든 이벤트}를 넣어줘야 에러도 없고 해당 타겟 찾기도 쉬움!!
+                  <li onClick={(e) => liClick(idx, e)} key={idx}>
+                    {itme}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        };
+        ```
