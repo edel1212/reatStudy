@@ -817,6 +817,57 @@ export default Movie;
       export default App;
       ```
 
+#### useEffect() - 모듈화
+
+- title 변경
+
+  - UseTitle.js
+
+    - ```javascript
+      import { useState, useEffect } from "react";
+
+      /**
+       * 받아온 데이터를 기반으로 useEffect()를 사용하여 값 변경
+       * - 감시 대상으로 title 를 지정
+       * - 랜더링 시 한번 실행된 후 감시 대상의 값이 변경 되어야 재 실행 및 랜더링
+       *
+       * @param initialTitle  - 타이틀에 사용될 문구
+       *
+       * @return setTitle - useState()의 값 변경 함수
+       */
+      export const useTitle = (initialTitle) => {
+        const [title, setTitle] = useState(initialTitle);
+        const updateTitle = () => {
+          // 👉  해당 title은 정말 HTML에서의 최 상단 title 이다!!
+          const htmlTitle = document.querySelector("title");
+          htmlTitle.innerText = title;
+        };
+        // 👉 useEffect() 사용
+        useEffect(updateTitle, [title]);
+
+        // 💬 값을 바꾸는 setTitle를 반환함
+        return setTitle;
+      };
+      ```
+
+  - App.js
+
+    - ```javascript
+      import { useTitle } from "./useEffectModule/UseTitle";
+
+      function App() {
+        // 👉 모듈화한 함수 실행
+        const titleUpdate = useTitle("Loading....");
+        // 👉 5초 후 title 값을 변경해서 useEffect()가 재 랜더링 되게 끔 설정
+        setTimeout(() => {
+          titleUpdate("useEffect사용! title 변경 시 감지 랜더링");
+        }, 5_000);
+        return <div className="App"></div>;
+      }
+
+      export default App;
+      ```
+
 <br/>
 <hr/>
 
