@@ -648,47 +648,100 @@ export default Movie;
 
 ## React-Hook
 
-- `useState()`?
-  - 값이 변경되면 해당 컴포넌트를 재랜더링 해줌
-  - 초기값 설정은 중요함 잊지말자
-  - "대상 변경 함수"는 새로운 값으로 변경 되게 끔 해주자!
-    - ex) ❌ 작동 안함 `setValue(value++)` || 👍 `setValue( value + 1)`
-  - 코드
-    - ```javascript
-      import {useState} from "react";
-      const [ 대상 , 대상 변경 함수 ] = useState(초기값 설정);
-      ```
-- useState()` - 컴포넌트 함수 외부에 있는 경우?
+### `useState()`?
 
-  - 여태까지는 `useState()`자체가 항상 사용하려는 해당 컴포넌트 function안에서만 사용했지만 밖에 있거나 `외부의 useState()`를 사용할 수 있다.
-  - 코드
+- 값이 변경되면 해당 컴포넌트를 재랜더링 해줌
+- 초기값 설정은 중요함 잊지말자
+- "대상 변경 함수"는 새로운 값으로 변경 되게 끔 해주자!
+  - ex) ❌ 작동 안함 `setValue(value++)` || 👍 `setValue( value + 1)`
+- 코드
+  - ```javascript
+    import {useState} from "react";
+    const [ 대상 , 대상 변경 함수 ] = useState(초기값 설정);
+    ```
 
-    - ```javascript
-      import { useState } from "react";
+#### 1️⃣ useState() - 컴포넌트 함수 외부에 있는 경우?
 
-      // 💬 외부에 선언 되어 있는 함수안에 useStat가 있음
-      const useInput = (initialValue) => {
-        const [value, setValue] = useState(initialValue);
-        return { value, setValue };
+- 여태까지는 `useState()`자체가 항상 사용하려는 해당 컴포넌트 function안에서만 사용했지만 밖에 있거나 `외부의 useState()`를 사용할 수 있다.
+- 코드
+
+  - ```javascript
+    import { useState } from "react";
+
+    // 💬 외부에 선언 되어 있는 함수안에 useStat가 있음
+    const useInput = (initialValue) => {
+      const [value, setValue] = useState(initialValue);
+      return { value, setValue };
+    };
+
+    function App() {
+      // 💬 컴포넌트 내부 함수에서 외부 함수를 선언해서 반환 Object를 받음
+      const name = useInput("yoo");
+      return (
+        <div className="App">
+          <input
+            type="text"
+            placeholder="name"
+            // 👉 Object 형식으로 반환 하기 떄문에 아래와 같이 사용
+            value={name.value}
+            onChange={(e) => name.setValue(e.target.value)}
+          />
+        </div>
+      );
+    }
+    export default App;
+    ```
+
+#### 2️⃣ useState() - 모듈화
+
+- `UseInput.js`
+
+  - ```javascript
+    import { useState } from "react";
+    // 👉 export시켜 줌
+    export const useInput = (initialValue, validator) => {
+      const [value, setValue] = useState(initialValue);
+      const onChange = (event) => {
+        const {
+          target: { value },
+        } = event;
+
+        let willUpdate = false;
+
+        // 👉 받아온 파라미터가 함수일 경우에만 실행
+        if (typeof validator === "function") {
+          willUpdate = validator(value);
+        }
+
+        if (willUpdate) {
+          setValue(value);
+        } // if - 정상일 경우에만 useSate() Update!
       };
+      return { value, onChange };
+    };
+    ```
 
-      function App() {
-        // 💬 컴포넌트 내부 함수에서 외부 함수를 선언해서 반환 Object를 받음
-        const name = useInput("yoo");
-        return (
-          <div className="App">
-            <input
-              type="text"
-              placeholder="name"
-              // 👉 Object 형식으로 반환 하기 떄문에 아래와 같이 사용
-              value={name.value}
-              onChange={(e) => name.setValue(e.target.value)}
-            />
-          </div>
-        );
-      }
-      export default App;
-      ```
+- `App.js`
+  ```javascript
+  import { useInput } from "./useInput/UseInput";
+  function App() {
+    // 👉 10이 넘으면 작동하지 않게 끔 조건 함수를 변수로 만듬
+    const maxLen = (val) => val.length <= 10;
+    // const includeWordChck = (val) => !val.includes("@");
+    const name = useInput("yoo", maxLen);
+    return (
+      <div className="App">
+        <input
+          type="text"
+          placeholder="name"
+          /**  💬 useInput()함수 자체에서 반환 할 때 이름을 맞춰줬기 떄문에 아래와같이 사용이 가능함 */
+          {...name}
+        />
+      </div>
+    );
+  }
+  export default App;
+  ```
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

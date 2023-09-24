@@ -1,4 +1,5 @@
 import { useState } from "react";
+// 👉 export시켜 줌
 export const useInput = (initialValue, validator) => {
   const [value, setValue] = useState(initialValue);
   const onChange = (event) => {
