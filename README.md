@@ -694,54 +694,128 @@ export default Movie;
 
 #### 2️⃣ useState() - 모듈화
 
-- `UseInput.js`
+- 해당 예제들의 중요 포인트는 "**컴포넌트 내부 또는 해당 .js**"에 `useState()`를 사용하지 않아도 불러와 사용해도  
+  ⭐ 중요 : state를 `공유 및 랜더링` 해준다는 것이다!
+- 예제 1 - input을 활용한 `useState` 모듈화
 
-  - ```javascript
-    import { useState } from "react";
-    // 👉 export시켜 줌
-    export const useInput = (initialValue, validator) => {
-      const [value, setValue] = useState(initialValue);
-      const onChange = (event) => {
-        const {
-          target: { value },
-        } = event;
+  - `UseInput.js`
 
-        let willUpdate = false;
+    - ```javascript
+      import { useState } from "react";
+      // 👉 export시켜 줌
+      export const useInput = (initialValue, validator) => {
+        const [value, setValue] = useState(initialValue);
+        const onChange = (event) => {
+          const {
+            target: { value },
+          } = event;
 
-        // 👉 받아온 파라미터가 함수일 경우에만 실행
-        if (typeof validator === "function") {
-          willUpdate = validator(value);
-        }
+          let willUpdate = false;
 
-        if (willUpdate) {
-          setValue(value);
-        } // if - 정상일 경우에만 useSate() Update!
+          // 👉 받아온 파라미터가 함수일 경우에만 실행
+          if (typeof validator === "function") {
+            willUpdate = validator(value);
+          }
+
+          if (willUpdate) {
+            setValue(value);
+          } // if - 정상일 경우에만 useSate() Update!
+        };
+        return { value, onChange };
       };
-      return { value, onChange };
-    };
+      ```
+
+  - `App.js`
+    ```javascript
+    import { useInput } from "./useInput/UseInput";
+    function App() {
+      // 👉 10이 넘으면 작동하지 않게 끔 조건 함수를 변수로 만듬
+      const maxLen = (val) => val.length <= 10;
+      // const includeWordChck = (val) => !val.includes("@");
+      const name = useInput("yoo", maxLen);
+      return (
+        <div className="App">
+          <input
+            type="text"
+            placeholder="name"
+            /**  💬 useInput()함수 자체에서 반환 할 때 이름을 맞춰줬기 떄문에 아래와같이 사용이 가능함 */
+            {...name}
+          />
+        </div>
+      );
+    }
+    export default App;
     ```
 
-- `App.js`
-  ```javascript
-  import { useInput } from "./useInput/UseInput";
-  function App() {
-    // 👉 10이 넘으면 작동하지 않게 끔 조건 함수를 변수로 만듬
-    const maxLen = (val) => val.length <= 10;
-    // const includeWordChck = (val) => !val.includes("@");
-    const name = useInput("yoo", maxLen);
-    return (
-      <div className="App">
-        <input
-          type="text"
-          placeholder="name"
-          /**  💬 useInput()함수 자체에서 반환 할 때 이름을 맞춰줬기 떄문에 아래와같이 사용이 가능함 */
-          {...name}
-        />
-      </div>
-    );
-  }
-  export default App;
-  ```
+- 예제 2 - button을 활용한 `useState` 모듈화
+
+  - UseTab.js
+
+    - ```javascript
+      import { useState } from "react";
+
+      /**
+       * 선택된 인덱스 번호 맞느 전달받은 JSON의 배열의 Index를 반환
+       *
+       * @param initialTabIndex : index 번호
+       * @param sectionList : 기반이 될 JSON Data
+       *
+       * @return {
+       *  currentItem , // 입력받은 index의 데이터
+       *  changeItem    //  useState()의 값 변경 함수
+       * }
+       */
+      export const useTabs = (initialTabIndex, sectionList) => {
+        const [currentIndx, setCurrentIndex] = useState(initialTabIndex);
+        // 👉 Validation Check
+        if (!sectionList || !Array.isArray(sectionList)) return;
+        return {
+          currentItem: sectionList[currentIndx],
+          changeItem: setCurrentIndex,
+        };
+      };
+      ```
+
+  - App.js
+
+    - ```javascript
+      import { useTabs } from "./useStateModule/UseTab";
+
+      const section = [
+        {
+          tab: "Section1",
+          content: "I'm the content of the Section 1",
+        },
+        {
+          tab: "Section2",
+          content: "I'm the content of the Section 2",
+        },
+      ];
+
+      function App() {
+        // 👉 import한 함수를 사용
+        const { currentItem, changeItem } = useTabs(0, section);
+        return (
+          <div className="App">
+            {section.map((item, idx) => (
+              <button
+                key={idx}
+                // 👉 onClick 사용 시 앵간하면 겉에 Click 함수를 감싸주자 loop error!!!
+                onClick={() => {
+                  changeItem(idx);
+                }}
+              >
+                {item.tab}
+              </button>
+            ))}
+            {/** 👉 반환 받은 currentItem 데이터의  content값을 보여줌 */}
+            <div>{currentItem.content}</div>
+          </div>
+        );
+      }
+
+      export default App;
+      ```
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

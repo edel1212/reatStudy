@@ -1,18 +1,34 @@
-import { useInput } from "./useInput/UseInput";
+import { useTabs } from "./useStateModule/UseTab";
+
+const section = [
+  {
+    tab: "Section1",
+    content: "I'm the content of the Section 1",
+  },
+  {
+    tab: "Section2",
+    content: "I'm the content of the Section 2",
+  },
+];
 
 function App() {
-  // 👉 10이 넘으면 작동하지 않게 끔 조건 함수를 변수로 만듬
-  const maxLen = (val) => val.length <= 10;
-  // const includeWordChck = (val) => !val.includes("@");
-  const name = useInput("yoo", maxLen);
+  // 👉 import한 함수를 사용
+  const { currentItem, changeItem } = useTabs(0, section);
   return (
     <div className="App">
-      <input
-        type="text"
-        placeholder="name"
-        /**  💬 useInput()함수 자체에서 반환 할 때 이름을 맞춰줬기 떄문에 아래와같이 사용이 가능함 */
-        {...name}
-      />
+      {section.map((item, idx) => (
+        <button
+          key={idx}
+          // 👉 onClick 사용 시 앵간하면 겉에 Click 함수를 감싸주자 loop error!!!
+          onClick={() => {
+            changeItem(idx);
+          }}
+        >
+          {item.tab}
+        </button>
+      ))}
+      {/** 👉 반환 받은 currentItem 데이터의  content값을 보여줌 */}
+      <div>{currentItem.content}</div>
     </div>
   );
 }
