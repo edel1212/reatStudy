@@ -1,22 +1,17 @@
-import { useState } from "react";
-
-// 💬 외부에 선언 되어 있는 함수안에 useStat가 있음
-const useInput = (initialValue) => {
-  const [value, setValue] = useState(initialValue);
-  return { value, setValue };
-};
+import { useInput } from "./useInput/UseInput";
 
 function App() {
-  // 💬 컴포넌트 내부 함수에서 외부 함수를 선언해서 반환 Object를 받음
-  const name = useInput("yoo");
+  // 👉 10이 넘으면 작동하지 않게 끔 조건 함수를 변수로 만듬
+  const maxLen = (val) => val.length <= 10;
+  // const includeWordChck = (val) => !val.includes("@");
+  const name = useInput("yoo", maxLen);
   return (
     <div className="App">
       <input
         type="text"
         placeholder="name"
-        // 👉 Object 형식으로 반환 하기 떄문에 아래와 같이 사용
-        value={name.value}
-        onChange={(e) => name.setValue(e.target.value)}
+        /**  💬 useInput()함수 자체에서 반환 할 때 이름을 맞춰줬기 떄문에 아래와같이 사용이 가능함 */
+        {...name}
       />
     </div>
   );
