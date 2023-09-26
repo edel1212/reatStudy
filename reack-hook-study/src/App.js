@@ -1,19 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 
+const useClick = (onClick) => {
+  const element = useRef();
+  if (element.current) {
+    element.current.addEventListener("click", onClick);
+  }
+  return element;
+};
+
 function App() {
-  const blackGom = useRef();
-
-  // 👉 input을 포커싱함! document.getElementById 와 비슷함
-  // blackGom.current  input이 잡힘
-  setTimeout(() => {
-    debugger;
-    blackGom.current.focus();
-  }, 2000);
-
+  const sayHello = () => console.log("say Hello~");
+  const title = useClick(sayHello);
   return (
     <div className="App">
-      {/* React에서 만들어지는 요소들은 무조건 ref[Reference]를 갖고있다 */}
-      <input ref={blackGom} placeholder="name" />
+      <h1 ref={title}>Hello</h1>
     </div>
   );
 }
