@@ -903,6 +903,38 @@ export default Movie;
       }, [dependency]); // dependency에 의존하는 값이 변경될 때 실행
       ```
 
+<br/>
+<hr/>
+
+### `useRef()`?
+
+- javscript의 `document.getElementById`와 굉장히 유사한 기능을 한다.
+- React에서는 Id를 사용하지 않고 `ref={}`를 지정해서 사용하는데 해당 ref를 찾을 수 있다.
+- 사용 방법
+
+  - ```javascript
+    // App.js
+    import { useRef } from "react";
+
+    function App() {
+      const blackGom = useRef();
+
+      // 👉 input을 포커싱함! document.getElementById 와 비슷함
+      setTimeout(() => {
+        // 👉 blackGom.current  input이 잡힘
+        blackGom.current.focus();
+      }, 2000);
+
+      return (
+        <div className="App">
+          {/* React에서 만들어지는 요소들은 무조건 ref[Reference]를 갖고있다 */}
+          <input ref={blackGom} placeholder="name" />
+        </div>
+      );
+    }
+    export default App;
+    ```
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 <hr/>

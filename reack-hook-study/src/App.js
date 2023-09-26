@@ -6,6 +6,7 @@ function App() {
   // 👉 input을 포커싱함! document.getElementById 와 비슷함
   // blackGom.current  input이 잡힘
   setTimeout(() => {
+    debugger;
     blackGom.current.focus();
   }, 2000);
 
