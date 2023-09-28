@@ -882,6 +882,15 @@ export default Movie;
         // 예: 초기 데이터 로딩, 외부 API 호출 등
       }, []); // 빈 배열은 컴포넌트가 마운트될 때만 실행
       ```
+  - ComponentDidUpdate : 특정 상태값이나 프롭스가 변경될 때 코드를 실행할 수 있습니다.
+
+    - ```javascript
+      useEffect(() => {
+        // 특정 상태나 프롭스가 변경될 때 실행되는 코드
+        // 예: 데이터 업데이트, 상태에 따른 조건부 처리 등
+      }, [dependency]); // dependency에 의존하는 값이 변경될 때 실행
+      ```
+
   - ComponentWilUnMount : 반환된 함수를 통해 컴포넌트가 언마운트(사라질 때)될 때 정리 작업을 수행할 수 있습니다.
 
     - ```javascript
@@ -893,14 +902,6 @@ export default Movie;
           // 예: 구독 해제, 타이머 클리어 등
         };
       }, []); // 빈 배열은 컴포넌트가 마운트될 때만 실행
-      ```
-
-  - ComponentDidUpdate : 특정 상태값이나 프롭스가 변경될 때 코드를 실행할 수 있습니다.
-    - ```javascript
-      useEffect(() => {
-        // 특정 상태나 프롭스가 변경될 때 실행되는 코드
-        // 예: 데이터 업데이트, 상태에 따른 조건부 처리 등
-      }, [dependency]); // dependency에 의존하는 값이 변경될 때 실행
       ```
 
 <br/>
@@ -934,6 +935,59 @@ export default Movie;
     }
     export default App;
     ```
+
+<br/>
+<hr/>
+
+### `useRef()` 사용 시 꼭 알아야하는 이론
+
+- `useEffect()`를 사용해서 ref()요소에 Event를 주고 만약 `useEffect()`가 `componentWillUnMount`가 될 경우 될 경우 Event를 삭제해 줘야한다는 것이다.
+
+  - 불필요한 자원을 관리하기 위해서 이다.
+
+- 예시 코드
+
+  ```javascript
+  import { useEffect, useRef } from "react";
+
+  const useClick = (onClick) => {
+    const element = useRef();
+
+    useEffect(() => {
+      // 👉 ComponentDidMount, ComponentDidUpdate 시 사용됨
+      if (element.current) {
+        element.current.addEventListener("click", onClick);
+      }
+      /////////////////////////////////////////////////////////////////
+      /////////////////////////////////////////////////////////////////
+
+      // 👉 ComponentWilUnMount 될 경우 사용 된다.
+      /***
+       * 사용 이유
+       * - component가 mount되지 않았을 때 eventListenter가 배치되게 하고 싶지 않기 떄문임
+       */
+      return () => {
+        if (element.current) {
+          element.current.removeEventListener("click", onClick);
+        }
+      };
+    }, []);
+
+    return element;
+  };
+
+  function App() {
+    const sayHello = () => console.log("say Hello~");
+    const title = useClick(sayHello);
+    return (
+      <div className="App">
+        <h1 ref={title}>Hello</h1>
+      </div>
+    );
+  }
+
+  export default App;
+  ```
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
