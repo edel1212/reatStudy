@@ -1,15 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-
-const useConfirm = (message = "", onConfirm, onCancel) => {
-  /** 💬 Validation Chcek */
-  if (onConfirm && typeof onConfirm !== "function") return;
-  if (onCancel && typeof onCancel !== "function") return;
-
-  const confirmAction = () => {
-    window.confirm(message) ? onConfirm() : onCancel();
-  };
-  return confirmAction;
-};
+import { useConfirm } from "./useModule/UseConfirm";
 
 function App() {
   const deleteWorld = () => console.log("Deleteting the world");
