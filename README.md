@@ -1138,7 +1138,53 @@ export default Movie;
     export default App;
     ```
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+- `functional`과 `useEffect`, `ref()`를 조합하여 사용
+
+  - UseFadeIn.js
+
+    ```javascript
+    import { useEffect, useRef } from "react";
+
+    export const useFadeIn = (duration = 1) => {
+      // 💬 React의 Ref를 가져옴
+      const element = useRef();
+      useEffect(() => {
+        if (element.current) {
+          // 👉 사용에 편의를 위해 Object를 단축해서 변수로 만듬
+          const { current } = element;
+          current.style.transition = `opacity ${duration}s`;
+          current.style.opacity = 1;
+        }
+      }, []);
+      // 💬 Object형태로 key값을 맞춰서 반환하여 사용 하는 쪽에서 {...반환}을 사용하여 쉽게 사용
+      return { ref: element, style: { opacity: 0 } };
+    };
+    ```
+
+  - App.js
+
+    ```javascript
+    import { useFadeIn } from "./functionalModule/UseFadeIn";
+
+    function App() {
+      /**
+       * ⭐ 여기서 중요한건 ref()는 하나만 참조가 가능하기에
+       *    각각 하나씩 반환 함수를 만들어서 적용해 줬다는 것이다.
+       */
+      const fadeInH1 = useFadeIn(3);
+      const fadeInP = useFadeIn(5);
+      return (
+        <div className="App">
+          <h1 {...fadeInH1}>Hello~</h1>
+          <p {...fadeInP}>이런식으로 만들어서 사용이 가능하다</p>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 <hr/>
 
