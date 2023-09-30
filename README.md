@@ -1011,7 +1011,7 @@ export default Movie;
 
 ### `functional Hook` 활용
 
-- `Confirm`활용 Hook
+- `Confirm`활용
 
   - 예시
 
@@ -1038,7 +1038,7 @@ export default Movie;
       };
       ```
 
-- `onbeforeunload` 활용 Hook
+- `onbeforeunload` 활용
 
   - 페이지 새로고침 혹은 나가기 누를 경우 알림 메세지 발생
   - 예시
@@ -1098,7 +1098,47 @@ export default Movie;
       export default App;
       ```
 
-      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+- `functional`과 `useEffect`를 조합하여 사용
+
+  - UseBeforeLeave.js
+
+    ```javascript
+    import { useEffect } from "react";
+
+    export const useBeforeLeave = (onBefore) => {
+      useEffect(() => {
+        document.addEventListener("mouseleave", heandle);
+        // 💬 ComponentWilUnMount 시 삭제 - 중요!!!
+        return () => {
+          document.removeEventListener("mouseleave", heandle);
+        };
+      }, []);
+
+      // 💬 addEventListener에서 받아온 (e) : event임!
+      const heandle = (e) => {
+        console.log(e);
+        onBefore();
+      };
+    };
+    ```
+
+  - App.js
+
+    ```javascript
+    import { useBeforeLeave } from "./functionalModule/UseBeforeLeave";
+
+    function App() {
+      // 👉 사용될 Function 생성
+      const beforeEvent = () => console.log("leaving...");
+      // ✅ 파라미터로 전달
+      useBeforeLeave(beforeEvent);
+      return <div className="App"></div>;
+    }
+
+    export default App;
+    ```
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 <hr/>
 

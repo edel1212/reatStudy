@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 
-import { usePreventLeave } from "./functionalModule/usePreventLeave";
+import { useBeforeLeave } from "./functionalModule/UseBeforeLeave";
 
 function App() {
-  const { enablePrevent, disablePrevent } = usePreventLeave();
-  return (
-    <div className="App">
-      <button onClick={enablePrevent}>종료 시 알림창</button>
-      <button onClick={disablePrevent}>종료 시 알림창 제거</button>
-    </div>
-  );
+  // 👉 사용될 Function 생성
+  const beforeEvent = () => console.log("leaving...");
+  // ✅ 파라미터로 전달
+  useBeforeLeave(beforeEvent);
+  return <div className="App"></div>;
 }
 
 export default App;
