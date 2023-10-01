@@ -1,26 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 
-/**
- *  ⭐️ Hook의 이름은 use... 로 시작해주지 check로 했다 에러 발생 ..
- *     - error :  React Hook function. React component names must start with an uppercase letter.
- *                React Hook names must start with the word "use"
- */
-const useCheck = () => {
-  const element = useRef();
-  if (element.current) {
-    console.log(element); // 하나로 다 사용할 경우 h3
-  }
-  return element;
-};
+import { useNetwork } from "./functionalModule/UseNetwork";
 
 function App() {
-  // ⭐️ 하나로 하면 ref는 마지막 h3만 인식함!! 제대로 사용하라면 변수를 추가해주자!
-  const refFun = useCheck();
-  const refFunH3 = useCheck();
+  const handleNetrowkChange = (status) =>
+    console.log(status ? "온라인 상태!!!" : "오프라인 상태!!");
+
+  const onLine = useNetwork(handleNetrowkChange);
   return (
     <div className="App">
-      <p ref={refFun}>I'm P tag</p>
-      <h3 ref={refFunH3}>I'm H3 tag</h3>
+      <h2>{onLine ? "온라인 상태입니다." : "오프라인 상태입니다."}</h2>
     </div>
   );
 }
