@@ -1553,3 +1553,51 @@ export default Movie;
         return <></>;
       }
       ```
+
+- `return {}` 함수 반환 시 삽질 ..
+
+  - 문제
+
+    - 아무리 함수를 반환해도 값을 받지 못하는 문제 발생 ...
+
+      ```javascript
+      export const useAxios = (options, axiosInstnafce = defaultAxios) => {
+        const [state, setSate] = useState({
+          loading: true,
+          error: null,
+          data: { status: 400 },
+        });
+        const refetch = () => {
+          setSate({
+            loading: true,
+          });
+          setTrigger(Math.random() * 10);
+        };
+
+        // ❌ 이렇게 사용하면 Object형태인 state가 비어있는 상태로 반환된다.
+        return { state, refetch };
+      };
+      ```
+
+  - 해결
+
+    - 스프레드 연산자(얕은 복사)를 사용해서 해결 `...대상`
+
+      ```javascript
+      export const useAxios = (options, axiosInstnafce = defaultAxios) => {
+        const [state, setSate] = useState({
+          loading: true,
+          error: null,
+          data: { status: 400 },
+        });
+        const refetch = () => {
+          setSate({
+            loading: true,
+          });
+          setTrigger(Math.random() * 10);
+        };
+
+        // 👍 얕은 복사로 해결
+        return { ...state, refetch };
+      };
+      ```
