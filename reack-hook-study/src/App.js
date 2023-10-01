@@ -1,15 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 
-import { useNetwork } from "./functionalModule/UseNetwork";
+import { useScroll } from "./functionalModule/UseScroll";
 
 function App() {
-  const handleNetrowkChange = (status) =>
-    console.log(status ? "온라인 상태!!!" : "오프라인 상태!!");
-
-  const onLine = useNetwork(handleNetrowkChange);
+  const { y } = useScroll();
   return (
-    <div className="App">
-      <h2>{onLine ? "온라인 상태입니다." : "오프라인 상태입니다."}</h2>
+    <div className="App" style={{ height: "1000vh" }}>
+      <h1 style={{ position: "fixed", color: y > 100 ? "red" : "blue" }}>
+        스크롤 높이에 따라 색 변경
+      </h1>
     </div>
   );
 }
