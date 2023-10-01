@@ -1284,6 +1284,81 @@ export default Movie;
     export default App;
     ```
 
+- `functional`과 `useRef` - 전체화면 이벤트
+
+  - UseFullScreen.js
+
+    ```javascript
+    import { useRef } from "react";
+
+    /**
+     * 전체화면 기능 함수
+     *
+     * @param callback - 전체화면 또는 전체화면 취소 시 사용될 함수
+     *
+     * @return  element     - ref()대상
+     * @return  triggerFull - 전체화면 함수
+     * @return  exitFull    - 전체화면 취소 함수
+     *
+     */
+    export const useFullscreen = (callback) => {
+      const element = useRef();
+
+      // 👉  전체화면 or  취소 시 사용 될 함수
+      const callbackFun = (isFull) => {
+        callback(isFull);
+      };
+
+      // 👉 전체화면 함수
+      const triggerFull = () => {
+        if (element.current) {
+          element.current.requestFullscreen();
+          callbackFun(true);
+        }
+      };
+      // 전체화면 취소 함수
+      const exitFull = () => {
+        document.exitFullscreen();
+        callbackFun(false);
+      };
+      return { element, triggerFull, exitFull };
+    };
+    ```
+
+  - App.js
+
+    ```javascript
+    import { useFullscreen } from "./functionalModule/UseFullScreen";
+
+    function App() {
+      // 👉 전체화면 또는 전체화면 취소 시 사용 될 함수
+      const fullScreenCallBack = (isFull) => {
+        console.log(
+          isFull
+            ? "전체화면 시 사용될 기능 정의"
+            : "전체화면이 아닐 시 기능 정의"
+        );
+      };
+
+      const { element, triggerFull, exitFull } =
+        useFullscreen(fullScreenCallBack);
+
+      return (
+        <div className="App">
+          <div ref={element}>
+            <p>
+              <button onClick={triggerFull}>이미지 전체 화면</button>
+              <button onClick={exitFull}>이미지 전체 종료</button>
+            </p>
+            <img src="https://source.unsplash.com/random/150×150"></img>
+          </div>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 <hr/>
