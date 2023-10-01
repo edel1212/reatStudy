@@ -1400,7 +1400,7 @@ export default Movie;
       };
       ```
 
-- `useRef()`사용 시 재활용 삽집..
+- `useRef()`사용 시 재활용 삽질..
 
   - 문제
     - ref를 반환하는 변수 하나로 재사용 하려했지만 내가 생각했던것 처럼 실행되지 않음
@@ -1436,4 +1436,45 @@ export default Movie;
       }
 
       export default App;
+      ```
+
+- `useRef()`사용 시 재활용 삽질.. - 반환 변수명을 안맞춰 줌 ..
+
+  - 문제
+
+    - ref를 반환하는 함수를 사용중 이상하게 undefined가 계속 뜨는 문제 발생
+
+      ```javascript
+      const useFullscreen = () => {
+        const element = useRef();
+        const triggerFull = () => ;
+        // 👉 "element" 여기랑
+        return { element, triggerFull };
+      };
+
+      function App() {
+        // ❌  "elem" 여기랑 다름...
+        const { elem, triggerFull } = useFullscreen();
+        return (
+          <div className="App">
+            <button onClick={triggerFull}>이미지 전체 화면</button>
+            <img ref={elem} src="https://source.unsplash.com/random/150×150"></img>
+          </div>
+        );
+      }
+      ```
+
+  - 해결
+
+    - 반환하는 Object 변수명과 사용 하는 변수명을 안 맞춰 주어서 였음..
+
+      ```javascript
+      const useFullscreen = () => {
+        return { element, triggerFull };
+      };
+
+      function App() {
+        const { element, triggerFull } = useFullscreen();
+        return <></>;
+      }
       ```
